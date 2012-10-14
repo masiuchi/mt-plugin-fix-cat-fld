@@ -19,7 +19,7 @@ my $plugin = __PACKAGE__->new(
         registry => {
             callbacks => {
                 'MT::App::CMS::template_source.header' =>
-                    \&_tmpl_src_insret_replace,
+                    \&_tmpl_src_insert_replace,
                 'MT::App::CMS::template_source.preview_strip' =>
                     \&_tmpl_src_insert_replace,
                 'MT::App::CMS::template_source.preview_template_strip' =>
