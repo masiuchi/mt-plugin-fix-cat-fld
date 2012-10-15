@@ -4,7 +4,7 @@ use warnings;
 use base qw( MT::Plugin );
 
 our $NAME = ( split /::/, __PACKAGE__ )[-1];
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my $plugin = __PACKAGE__->new(
     {   name        => $NAME,
@@ -68,7 +68,7 @@ sub _replace_list {
     $$tmpl_ref =~ s!$before!$mtml!;
 }
 
-my ( $fmgr, $dir_path, $file_path, $orig_path );
+my ( $fmgr, $support_directory_path, $dir_path, $file_path, $orig_path );
 
 sub _create_modified_js {
     my ($app) = @_;
@@ -78,8 +78,12 @@ sub _create_modified_js {
     return unless $fmgr;
 
     require File::Spec;
+    $support_directory_path ||=
+        $MT::VERSION < 5
+        ? File::Spec->catdir( $app->static_file_path, 'support' )
+        : $app->support_directory_path;
     $dir_path
-        ||= File::Spec->catdir( $app->support_directory_path, 'fix_cat_fld' );
+        ||= File::Spec->catdir( $support_directory_path, 'fix_cat_fld' );
     $file_path ||= File::Spec->catfile( $dir_path, 'List.js' );
     $orig_path
         ||= File::Spec->catdir( $app->static_file_path, qw( js common ),
